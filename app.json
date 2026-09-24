@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Watermelon Airsoft",
+    "slug": "watermelon-airsoft",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "scheme": "watermelonairsoft",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0c0c0f"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.watermelon.airsoft",
+      "buildNumber": "1",
+      "infoPlist": {
+        "CFBundleDisplayName": "Watermelon Airsoft"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0c0c0f"
+      },
+      "package": "app.watermelon.airsoft",
+      "versionCode": 1,
+      "edgeToEdgeEnabled": true,
+      "permissions": [],
+      "blockedPermissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
