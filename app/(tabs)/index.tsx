@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -7,16 +9,15 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ClassList } from '../../src/components/ClassList';
-import { EnergyHero } from '../../src/components/EnergyHero';
-import { ValueSlider } from '../../src/components/ValueSlider';
+import { ClassPills } from '../../src/components/ClassPills';
+import { NumberField } from '../../src/components/NumberField';
+import { ResultBar } from '../../src/components/ResultBar';
 import { WeightChips } from '../../src/components/WeightChips';
 import {
   calculateEnergyJoules,
   equivalentVelocity,
   formatEnergy,
   formatVelocity,
-  formatWeight,
   getWeaponClass,
 } from '../../src/lib/calculator';
 import {
@@ -38,87 +39,93 @@ export default function CalculatorScreen() {
   const equiv = equivalentVelocity(energy, 0.2);
   const weaponClass = getWeaponClass(energy);
 
-  const controls = (
-    <View style={styles.controls}>
-      <WeightChips value={weight} onChange={setWeight} />
-      <ValueSlider
-        label="Вес шара"
-        valueLabel={`${formatWeight(weight)} г`}
-        value={weight}
-        min={0.2}
-        max={0.45}
-        step={0.01}
-        onChange={setWeight}
-      />
-      <ValueSlider
+  const result = (
+    <ResultBar
+      energy={formatEnergy(energy)}
+      equivSpeed={formatVelocity(equiv)}
+      weaponClass={weaponClass}
+    />
+  );
+
+  const inputs = (
+    <View style={styles.inputs}>
+      <View style={styles.fieldBlock}>
+        <NumberField
+          label="Вес шара"
+          unit="г"
+          value={weight}
+          min={0.2}
+          max={0.45}
+          step={0.01}
+          decimals={2}
+          onChange={setWeight}
+        />
+        <WeightChips value={weight} onChange={setWeight} />
+      </View>
+
+      <NumberField
         label="Скорость"
-        valueLabel={`${formatVelocity(velocity)} м/с`}
+        unit="м/с"
         value={velocity}
         min={VELOCITY_MIN}
         max={VELOCITY_MAX}
         step={1}
+        decimals={0}
         onChange={setVelocity}
       />
-      <Text style={styles.hint}>
-        Подвинь ползунки — активный класс в регламенте подсветится. Удобно перед
-        хроном: сразу видно лимит и дистанцию.
-      </Text>
-    </View>
-  );
 
-  const results = (
-    <View style={styles.results}>
-      <EnergyHero
-        energy={formatEnergy(energy)}
-        equivSpeed={formatVelocity(equiv)}
-        weaponClass={weaponClass}
-        compact={landscape}
-      />
-      <ClassList activeId={weaponClass.id} />
+      <ClassPills activeId={weaponClass.id} />
     </View>
   );
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
+    <View style={[styles.root, { paddingTop: insets.top + 6 }]}>
       <View style={styles.header}>
         <Text style={styles.brand}>Watermelon</Text>
-        <Text style={styles.subtitle}>Airsoft · калькулятор Дж</Text>
+        <Text style={styles.subtitle}>Airsoft · Дж</Text>
       </View>
 
-      {landscape ? (
-        <View
-          style={[
-            styles.landscape,
-            { paddingBottom: Math.max(insets.bottom, 12) },
-          ]}
-        >
-          <ScrollView
-            style={styles.col}
-            contentContainerStyle={styles.colContent}
-            showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={8}
+      >
+        {landscape ? (
+          <View
+            style={[
+              styles.landscape,
+              { paddingBottom: Math.max(insets.bottom, 8) },
+            ]}
           >
-            {controls}
-          </ScrollView>
-          <ScrollView
-            style={styles.col}
-            contentContainerStyle={styles.colContent}
-            showsVerticalScrollIndicator={false}
-          >
-            {results}
-          </ScrollView>
-        </View>
-      ) : (
-        <ScrollView
-          contentContainerStyle={[
-            styles.portrait,
-            { paddingBottom: Math.max(insets.bottom, 24) + 72 },
-          ]}
-          showsVerticalScrollIndicator={false}
-        >
-          {results}
-          {controls}
-        </ScrollView>
-      )}
+            <ScrollView
+              style={styles.col}
+              contentContainerStyle={styles.colContent}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {inputs}
+            </ScrollView>
+            <View style={styles.col}>{result}</View>
+          </View>
+        ) : (
+          <View style={styles.portrait}>
+            {/* Результат всегда сверху — не надо скроллить к нему */}
+            <View style={styles.stickyResult}>{result}</View>
+
+            <ScrollView
+              style={styles.flex}
+              contentContainerStyle={[
+                styles.scrollBody,
+                { paddingBottom: Math.max(insets.bottom, 16) + 72 },
+              ]}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {inputs}
+            </ScrollView>
+          </View>
+        )}
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -128,49 +135,56 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bg,
   },
+  flex: {
+    flex: 1,
+  },
   header: {
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.md,
-    gap: 4,
+    paddingHorizontal: spacing.md,
+    paddingBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 8,
   },
   brand: {
     color: colors.text,
-    fontSize: 28,
-    letterSpacing: -0.5,
+    fontSize: 22,
+    letterSpacing: -0.4,
     fontFamily: 'DMSans_700Bold',
   },
   subtitle: {
     color: colors.muted,
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: 'DMSans_400Regular',
   },
   portrait: {
-    paddingHorizontal: spacing.lg,
-    gap: spacing.lg,
+    flex: 1,
+  },
+  stickyResult: {
+    paddingHorizontal: spacing.md,
+    paddingBottom: 10,
+  },
+  scrollBody: {
+    paddingHorizontal: spacing.md,
+    gap: spacing.md,
   },
   landscape: {
     flex: 1,
     flexDirection: 'row',
-    paddingHorizontal: spacing.lg,
-    gap: spacing.lg,
+    paddingHorizontal: spacing.md,
+    gap: spacing.md,
+    alignItems: 'flex-start',
   },
   col: {
     flex: 1,
   },
   colContent: {
-    gap: spacing.lg,
-    paddingBottom: spacing.lg,
+    gap: spacing.md,
+    paddingBottom: spacing.md,
   },
-  controls: {
-    gap: spacing.lg,
+  inputs: {
+    gap: spacing.md,
   },
-  results: {
-    gap: spacing.lg,
-  },
-  hint: {
-    color: colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    fontFamily: 'DMSans_400Regular',
+  fieldBlock: {
+    gap: 8,
   },
 });

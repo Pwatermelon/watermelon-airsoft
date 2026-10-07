@@ -51,7 +51,7 @@ export const WEAPON_CLASSES: WeaponClass[] = [
     description: 'Пистолеты, автоматы в здании',
     maxJoules: 1.5,
     minDistanceM: 0,
-    color: colors.green,
+    color: '#3dd68c', // зелёный
   },
   {
     id: 'primary',
@@ -60,7 +60,7 @@ export const WEAPON_CLASSES: WeaponClass[] = [
     description: 'Автомат на открытой местности',
     maxJoules: 2.4,
     minDistanceM: 10,
-    color: colors.accent,
+    color: '#e8c35a', // жёлтый
   },
   {
     id: 'sniper',
@@ -69,7 +69,7 @@ export const WEAPON_CLASSES: WeaponClass[] = [
     description: 'Только одиночный огонь (болтовка, полуавтомат)',
     maxJoules: 3.0,
     minDistanceM: 30,
-    color: colors.warn,
+    color: '#f08a3a', // оранжевый
   },
   {
     id: 'banned',
@@ -78,7 +78,7 @@ export const WEAPON_CLASSES: WeaponClass[] = [
     description: 'К игре не допускается',
     maxJoules: Infinity,
     minDistanceM: null,
-    color: colors.danger,
+    color: '#e84855', // красный
   },
 ];
 
