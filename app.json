@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "scheme": "watermelonairsoft",
     "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -29,11 +29,7 @@
       "package": "app.watermelon.airsoft",
       "versionCode": 1,
       "edgeToEdgeEnabled": true,
-      "permissions": [],
-      "blockedPermissions": [
-        "android.permission.INTERNET",
-        "android.permission.ACCESS_NETWORK_STATE"
-      ]
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png",

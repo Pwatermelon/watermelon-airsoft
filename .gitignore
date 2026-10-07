@@ -2,6 +2,7 @@ node_modules/
 .expo/
 .expo-home/
 dist/
+dist-bundle/
 npm-debug.*
 *.jks
 *.p8

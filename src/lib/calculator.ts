@@ -1,4 +1,4 @@
-import { WEAPON_CLASSES, type WeaponClass } from '@/src/theme/tokens';
+import { WEAPON_CLASSES, type WeaponClass } from '../theme/tokens';
 
 /** E = ½ × m × v², mass in grams → kilograms */
 export function calculateEnergyJoules(weightGrams: number, velocityMs: number): number {

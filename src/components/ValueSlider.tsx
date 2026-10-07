@@ -7,7 +7,7 @@ import {
   View,
   type GestureResponderEvent,
 } from 'react-native';
-import { colors, spacing } from '@/src/theme/tokens';
+import { colors, spacing } from '../theme/tokens';
 
 type Props = {
   label: string;

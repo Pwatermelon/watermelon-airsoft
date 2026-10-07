@@ -7,8 +7,8 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { WIKI_INTRO, WIKI_SECTIONS } from '@/src/data/wiki';
-import { colors, radius, spacing } from '@/src/theme/tokens';
+import { WIKI_INTRO, WIKI_SECTIONS } from '../../src/data/wiki';
+import { colors, radius, spacing } from '../../src/theme/tokens';
 
 export default function WikiScreen() {
   const insets = useSafeAreaInsets();

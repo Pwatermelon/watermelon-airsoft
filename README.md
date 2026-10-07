@@ -80,7 +80,7 @@ npm run test:calc
 
 CI-сборка подписана debug-ключом: для установки на своё устройство нормально. Для Google Play нужен свой keystore.
 
-Стек: Expo 53, React Native, TypeScript. Один код на Android и iOS. На Android из манифеста убраны сетевые разрешения.
+Стек: Expo 53, React Native, TypeScript. Один код на Android и iOS. Сеть приложению не нужна: расчёт и вики встроены в APK.
 
 ---
 

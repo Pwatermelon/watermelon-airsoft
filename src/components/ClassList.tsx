@@ -6,7 +6,7 @@ import {
   radius,
   spacing,
   type WeaponClassId,
-} from '@/src/theme/tokens';
+} from '../theme/tokens';
 
 type Props = {
   activeId: WeaponClassId;

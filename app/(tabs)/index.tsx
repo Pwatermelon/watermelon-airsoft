@@ -7,10 +7,10 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ClassList } from '@/src/components/ClassList';
-import { EnergyHero } from '@/src/components/EnergyHero';
-import { ValueSlider } from '@/src/components/ValueSlider';
-import { WeightChips } from '@/src/components/WeightChips';
+import { ClassList } from '../../src/components/ClassList';
+import { EnergyHero } from '../../src/components/EnergyHero';
+import { ValueSlider } from '../../src/components/ValueSlider';
+import { WeightChips } from '../../src/components/WeightChips';
 import {
   calculateEnergyJoules,
   equivalentVelocity,
@@ -18,13 +18,13 @@ import {
   formatVelocity,
   formatWeight,
   getWeaponClass,
-} from '@/src/lib/calculator';
+} from '../../src/lib/calculator';
 import {
   VELOCITY_MAX,
   VELOCITY_MIN,
   colors,
   spacing,
-} from '@/src/theme/tokens';
+} from '../../src/theme/tokens';
 
 export default function CalculatorScreen() {
   const insets = useSafeAreaInsets();

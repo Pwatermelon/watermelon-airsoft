@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { BB_WEIGHTS, colors, radius, spacing } from '@/src/theme/tokens';
-import { formatWeight } from '@/src/lib/calculator';
+import { BB_WEIGHTS, colors, radius, spacing } from '../theme/tokens';
+import { formatWeight } from '../lib/calculator';
 
 type Props = {
   value: number;

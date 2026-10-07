@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { colors, radius, spacing, type WeaponClass } from '@/src/theme/tokens';
+import { colors, radius, spacing, type WeaponClass } from '../theme/tokens';
 
 type Props = {
   energy: string;
