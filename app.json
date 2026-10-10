@@ -29,7 +29,12 @@
       "package": "app.watermelon.airsoft",
       "versionCode": 1,
       "edgeToEdgeEnabled": true,
+      "softwareKeyboardLayoutMode": "resize",
       "permissions": []
+    },
+    "androidNavigationBar": {
+      "backgroundColor": "#15151a",
+      "barStyle": "light-content"
     },
     "web": {
       "favicon": "./assets/favicon.png",

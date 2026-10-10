@@ -1,9 +1,15 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme/tokens';
 
+const TAB_BAR_CONTENT = 52;
+
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+  // Samsung / Android 3-button + gesture bar — не даём системе наехать на табы
+  const bottomInset = Math.max(insets.bottom, 8);
+
   return (
     <Tabs
       screenOptions={{
@@ -14,14 +20,16 @@ export default function TabsLayout() {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          height: Platform.OS === 'ios' ? 88 : 64,
+          height: TAB_BAR_CONTENT + bottomInset,
           paddingTop: 6,
-          paddingBottom: Platform.OS === 'ios' ? 28 : 10,
+          paddingBottom: bottomInset,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontFamily: 'DMSans_500Medium',
         },
+        // Не дублируем safe-area: мы уже заложили insets.bottom в style
+        tabBarSafeAreaInsets: { bottom: 0 },
       }}
     >
       <Tabs.Screen
