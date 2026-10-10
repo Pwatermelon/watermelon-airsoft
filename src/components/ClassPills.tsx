@@ -1,23 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {
-  WEAPON_CLASSES,
-  colors,
-  radius,
-  type WeaponClassId,
-} from '../theme/tokens';
+import type { WeaponClass } from '../data/regulations';
+import { colors, radius } from '../theme/tokens';
 
 type Props = {
-  activeId: WeaponClassId;
+  classes: WeaponClass[];
+  activeId: string;
 };
 
-export function ClassPills({ activeId }: Props) {
+export function ClassPills({ classes, activeId }: Props) {
   return (
     <View style={styles.wrap}>
-      {WEAPON_CLASSES.map((cls) => {
+      {classes.map((cls) => {
         const active = cls.id === activeId;
-        const distance =
-          cls.minDistanceM === null ? '>3 Дж' : `${cls.minDistanceM} м`;
+        const limit =
+          cls.banned || !Number.isFinite(cls.maxJoules)
+            ? '> лимит'
+            : `≤ ${cls.maxJoules.toFixed(2)} Дж`;
 
         return (
           <View
@@ -31,12 +30,14 @@ export function ClassPills({ activeId }: Props) {
             ]}
           >
             <View style={[styles.dot, { backgroundColor: cls.color }]} />
-            <Text style={[styles.title, active && { color: colors.text }]}>
-              {cls.shortTitle}
-            </Text>
-            <Text style={[styles.meta, active && { color: cls.color }]}>
-              {distance}
-            </Text>
+            <View style={styles.body}>
+              <Text style={[styles.title, active && { color: colors.text }]}>
+                {cls.shortTitle}
+              </Text>
+              <Text style={[styles.meta, active && { color: cls.color }]}>
+                {limit}
+              </Text>
+            </View>
           </View>
         );
       })}
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     minWidth: 140,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: radius.md,
@@ -69,15 +70,18 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 3,
   },
-  title: {
+  body: {
     flex: 1,
+    gap: 2,
+  },
+  title: {
     color: colors.muted,
     fontSize: 13,
     fontFamily: 'DMSans_600SemiBold',
   },
   meta: {
     color: colors.muted,
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: 'IBMPlexMono_400Regular',
   },
 });

@@ -31,60 +31,15 @@ export const spacing = {
   xxl: 48,
 } as const;
 
-export type WeaponClassId = 'secondary' | 'primary' | 'sniper' | 'banned';
-
-export type WeaponClass = {
-  id: WeaponClassId;
-  title: string;
-  shortTitle: string;
-  description: string;
-  maxJoules: number;
-  minDistanceM: number | null;
-  color: string;
-};
-
-export const WEAPON_CLASSES: WeaponClass[] = [
-  {
-    id: 'secondary',
-    title: 'Вторичка',
-    shortTitle: 'Вторичка',
-    description: 'Пистолеты, автоматы в здании',
-    maxJoules: 1.5,
-    minDistanceM: 0,
-    color: '#3dd68c', // зелёный
-  },
-  {
-    id: 'primary',
-    title: 'Основное',
-    shortTitle: 'Основное',
-    description: 'Автомат на открытой местности',
-    maxJoules: 2.4,
-    minDistanceM: 10,
-    color: '#e8c35a', // жёлтый
-  },
-  {
-    id: 'sniper',
-    title: 'Снайперка',
-    shortTitle: 'Снайперка',
-    description: 'Только одиночный огонь (болтовка, полуавтомат)',
-    maxJoules: 3.0,
-    minDistanceM: 30,
-    color: '#f08a3a', // оранжевый
-  },
-  {
-    id: 'banned',
-    title: 'Не допуск',
-    shortTitle: 'Не допуск',
-    description: 'К игре не допускается',
-    maxJoules: Infinity,
-    minDistanceM: null,
-    color: '#e84855', // красный
-  },
-];
+/** Re-export regulation types for convenience */
+export type { WeaponClass, WeaponClassId, RegulationId } from '../data/regulations';
 
 export const BB_WEIGHTS = [
-  0.2, 0.23, 0.25, 0.28, 0.3, 0.32, 0.36, 0.4, 0.43, 0.45,
+  0.12, 0.2, 0.23, 0.25, 0.28, 0.3, 0.32, 0.36, 0.4, 0.43, 0.45, 0.48, 0.5,
 ] as const;
 
-export const VELOCITY_MIN = 80;
-export const VELOCITY_MAX = 180;
+export const WEIGHT_MIN = 0.12;
+export const WEIGHT_MAX = 0.5;
+
+export const VELOCITY_MIN = 60;
+export const VELOCITY_MAX = 200;

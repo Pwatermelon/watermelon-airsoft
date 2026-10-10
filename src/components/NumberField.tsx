@@ -125,7 +125,8 @@ export function NumberField({
               commitText(text);
             }}
             onSubmitEditing={() => commitText(text)}
-            keyboardType="decimal-pad"
+            keyboardType={decimals > 0 ? 'decimal-pad' : 'number-pad'}
+            inputMode={decimals > 0 ? 'decimal' : 'numeric'}
             returnKeyType="done"
             selectTextOnFocus
             accessibilityLabel={label}

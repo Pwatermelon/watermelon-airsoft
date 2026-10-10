@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { colors, radius, spacing, type WeaponClass } from '../theme/tokens';
+import type { WeaponClass } from '../data/regulations';
+import { colors, radius, spacing } from '../theme/tokens';
 
 type Props = {
   energy: string;
@@ -9,10 +10,9 @@ type Props = {
 };
 
 export function ResultBar({ energy, equivSpeed, weaponClass }: Props) {
-  const distanceLabel =
-    weaponClass.minDistanceM === null
-      ? 'не допуск'
-      : `от ${weaponClass.minDistanceM} м`;
+  const limitLabel = weaponClass.banned
+    ? 'не допуск'
+    : `до ${weaponClass.maxJoules.toFixed(2)} Дж`;
 
   return (
     <View style={[styles.wrap, { borderColor: weaponClass.color }]}>
@@ -30,10 +30,11 @@ export function ResultBar({ energy, equivSpeed, weaponClass }: Props) {
         <Text style={[styles.classTitle, { color: weaponClass.color }]}>
           {weaponClass.title}
         </Text>
-        <Text style={styles.meta}>{distanceLabel}</Text>
-        <Text style={styles.equiv}>
-          0.20 г → {equivSpeed} м/с
+        <Text style={styles.meta}>{limitLabel}</Text>
+        <Text style={styles.equiv} numberOfLines={2}>
+          {weaponClass.description}
         </Text>
+        <Text style={styles.equiv}>0.20 г → {equivSpeed} м/с</Text>
       </View>
     </View>
   );
@@ -98,8 +99,8 @@ const styles = StyleSheet.create({
   },
   equiv: {
     color: colors.muted,
-    fontSize: 12,
-    marginTop: 2,
+    fontSize: 11,
+    marginTop: 1,
     fontFamily: 'IBMPlexMono_400Regular',
   },
 });

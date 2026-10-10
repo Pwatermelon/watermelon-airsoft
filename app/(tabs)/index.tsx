@@ -11,8 +11,10 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ClassPills } from '../../src/components/ClassPills';
 import { NumberField } from '../../src/components/NumberField';
+import { RegulationToggle } from '../../src/components/RegulationToggle';
 import { ResultBar } from '../../src/components/ResultBar';
 import { WeightChips } from '../../src/components/WeightChips';
+import { REGULATIONS, type RegulationId } from '../../src/data/regulations';
 import {
   calculateEnergyJoules,
   equivalentVelocity,
@@ -23,6 +25,8 @@ import {
 import {
   VELOCITY_MAX,
   VELOCITY_MIN,
+  WEIGHT_MAX,
+  WEIGHT_MIN,
   colors,
   spacing,
 } from '../../src/theme/tokens';
@@ -32,12 +36,14 @@ export default function CalculatorScreen() {
   const { width, height } = useWindowDimensions();
   const landscape = width > height;
 
+  const [regulationId, setRegulationId] = React.useState<RegulationId>('fsso');
   const [weight, setWeight] = React.useState(0.25);
   const [velocity, setVelocity] = React.useState(120);
 
+  const regulation = REGULATIONS[regulationId];
   const energy = calculateEnergyJoules(weight, velocity);
   const equiv = equivalentVelocity(energy, 0.2);
-  const weaponClass = getWeaponClass(energy);
+  const weaponClass = getWeaponClass(energy, regulation.classes);
 
   const result = (
     <ResultBar
@@ -54,8 +60,8 @@ export default function CalculatorScreen() {
           label="Вес шара"
           unit="г"
           value={weight}
-          min={0.2}
-          max={0.45}
+          min={WEIGHT_MIN}
+          max={WEIGHT_MAX}
           step={0.01}
           decimals={2}
           onChange={setWeight}
@@ -74,7 +80,8 @@ export default function CalculatorScreen() {
         onChange={setVelocity}
       />
 
-      <ClassPills activeId={weaponClass.id} />
+      <Text style={styles.note}>{regulation.note}</Text>
+      <ClassPills classes={regulation.classes} activeId={weaponClass.id} />
     </View>
   );
 
@@ -83,6 +90,10 @@ export default function CalculatorScreen() {
       <View style={styles.header}>
         <Text style={styles.brand}>Watermelon</Text>
         <Text style={styles.subtitle}>Airsoft · Дж</Text>
+      </View>
+
+      <View style={styles.toggleWrap}>
+        <RegulationToggle value={regulationId} onChange={setRegulationId} />
       </View>
 
       <KeyboardAvoidingView
@@ -109,7 +120,6 @@ export default function CalculatorScreen() {
           </View>
         ) : (
           <View style={styles.portrait}>
-            {/* Результат всегда сверху — не надо скроллить к нему */}
             <View style={styles.stickyResult}>{result}</View>
 
             <ScrollView
@@ -156,6 +166,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'DMSans_400Regular',
   },
+  toggleWrap: {
+    paddingHorizontal: spacing.md,
+    paddingBottom: 10,
+  },
   portrait: {
     flex: 1,
   },
@@ -186,5 +200,11 @@ const styles = StyleSheet.create({
   },
   fieldBlock: {
     gap: 8,
+  },
+  note: {
+    color: colors.muted,
+    fontSize: 12,
+    lineHeight: 17,
+    fontFamily: 'DMSans_400Regular',
   },
 });

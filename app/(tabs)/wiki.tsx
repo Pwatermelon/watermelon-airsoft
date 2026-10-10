@@ -67,7 +67,7 @@ export default function WikiScreen() {
         ))}
 
         <Text style={[styles.footer, columns === 2 && styles.fullWidth]}>
-          Всё считается на устройстве, без интернета. Лимиты — по правилам ФССО.
+          Всё считается на устройстве, без интернета. Регламенты: ФССО и ЛЕОН.
         </Text>
       </ScrollView>
     </View>

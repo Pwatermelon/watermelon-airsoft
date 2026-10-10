@@ -1,4 +1,4 @@
-import { WEAPON_CLASSES, type WeaponClass } from '../theme/tokens';
+import type { WeaponClass } from '../data/regulations';
 
 /** E = ½ × m × v², mass in grams → kilograms */
 export function calculateEnergyJoules(weightGrams: number, velocityMs: number): number {
@@ -13,11 +13,14 @@ export function equivalentVelocity(energyJoules: number, targetWeightGrams: numb
   return Math.sqrt((2 * energyJoules) / massKg);
 }
 
-export function getWeaponClass(energyJoules: number): WeaponClass {
-  for (const cls of WEAPON_CLASSES) {
+export function getWeaponClass(
+  energyJoules: number,
+  classes: WeaponClass[],
+): WeaponClass {
+  for (const cls of classes) {
     if (energyJoules <= cls.maxJoules) return cls;
   }
-  return WEAPON_CLASSES[WEAPON_CLASSES.length - 1];
+  return classes[classes.length - 1];
 }
 
 export function formatEnergy(joules: number): string {
