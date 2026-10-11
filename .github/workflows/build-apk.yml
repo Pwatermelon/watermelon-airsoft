@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-apk:
     runs-on: ubuntu-latest
@@ -56,14 +59,31 @@ jobs:
         id: apk
         run: |
           APK_PATH=$(find android/app/build/outputs/apk -name "*.apk" | head -n 1)
+          VERSION=$(node -p "require('./app.json').expo.version")
+          OUT="watermelon-airsoft-${VERSION}-b${GITHUB_RUN_NUMBER}.apk"
+          cp "$APK_PATH" "$OUT"
           echo "path=$APK_PATH" >> "$GITHUB_OUTPUT"
-          echo "Found APK: $APK_PATH"
-          ls -lh "$APK_PATH"
+          echo "file=$OUT" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Found APK: $APK_PATH → $OUT"
+          ls -lh "$OUT"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: watermelon-airsoft-${{ github.sha }}
-          path: ${{ steps.apk.outputs.path }}
+          path: ${{ steps.apk.outputs.file }}
           if-no-files-found: error
           retention-days: 30
+
+      # Artifacts ≠ Releases. Кладём APK в GitHub Release на push в main/master
+      # и при ручном запуске workflow (не на PR).
+      - name: Publish GitHub Release
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.apk.outputs.version }}-b${{ github.run_number }}
+          name: Watermelon Airsoft v${{ steps.apk.outputs.version }} (build ${{ github.run_number }})
+          files: ${{ steps.apk.outputs.file }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true

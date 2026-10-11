@@ -28,7 +28,7 @@
       },
       "package": "app.watermelon.airsoft",
       "versionCode": 1,
-      "edgeToEdgeEnabled": true,
+      "edgeToEdgeEnabled": false,
       "softwareKeyboardLayoutMode": "resize",
       "permissions": []
     },

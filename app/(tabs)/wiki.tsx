@@ -27,7 +27,7 @@ export default function WikiScreen() {
         contentContainerStyle={[
           styles.content,
           {
-            paddingBottom: 24,
+            paddingBottom: 32,
             flexDirection: columns === 2 ? 'row' : 'column',
             flexWrap: columns === 2 ? 'wrap' : 'nowrap',
           },

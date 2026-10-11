@@ -126,7 +126,7 @@ export default function CalculatorScreen() {
               style={styles.flex}
               contentContainerStyle={[
                 styles.scrollBody,
-                { paddingBottom: 24 },
+                { paddingBottom: 32 },
               ]}
               keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}

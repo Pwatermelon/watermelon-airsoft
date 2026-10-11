@@ -3,12 +3,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme/tokens';
 
-const TAB_BAR_CONTENT = 52;
+const TAB_BAR_CONTENT = 56;
+/** Запас между иконками табов и системными кнопками Samsung */
+const BOTTOM_GAP = 20;
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
-  // Samsung / Android 3-button + gesture bar — не даём системе наехать на табы
-  const bottomInset = Math.max(insets.bottom, 8);
+  const bottomPad = Math.max(insets.bottom, 12) + BOTTOM_GAP;
 
   return (
     <Tabs
@@ -20,15 +21,18 @@ export default function TabsLayout() {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          height: TAB_BAR_CONTENT + bottomInset,
-          paddingTop: 6,
-          paddingBottom: bottomInset,
+          height: TAB_BAR_CONTENT + bottomPad,
+          paddingTop: 8,
+          paddingBottom: bottomPad,
+        },
+        tabBarItemStyle: {
+          paddingVertical: 4,
         },
         tabBarLabelStyle: {
           fontSize: 12,
+          marginBottom: 2,
           fontFamily: 'DMSans_500Medium',
         },
-        // Не дублируем safe-area: мы уже заложили insets.bottom в style
         tabBarSafeAreaInsets: { bottom: 0 },
       }}
     >

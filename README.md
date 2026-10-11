@@ -83,6 +83,9 @@ npm run test:calc
 
 ## Сборка APK
 
-Пуш в `main` / `master` или ручной запуск **Build Android APK** в GitHub Actions. Готовый файл — в Artifacts (`watermelon-airsoft-<sha>`).
+Пуш в `main` / `master` или ручной запуск **Build Android APK** в GitHub Actions.
+
+- **Actions → Artifacts** — временный файл сборки (хранится ~30 дней)
+- **Releases** — туда же CI публикует APK (`v1.0.0-b123` и т.п.), скачивать удобнее отсюда
 
 Стек: Expo 53, React Native, TypeScript.
